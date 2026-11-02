@@ -1,0 +1,17 @@
+[
+  {
+    "file": "jellyfin-androidx-media.tar.gz",
+    "url": "https://codeload.github.com/jellyfin/jellyfin-androidx-media/tar.gz/refs/tags/v1.6.1+2",
+    "sha256": "620d8becf6659614e4d110011e948facd864046982117080f9ee6d6a0a51c21d"
+  },
+  {
+    "file": "ffmpeg.tar.gz",
+    "url": "https://codeload.github.com/FFmpeg/FFmpeg/tar.gz/d388c347d41e4eb516dec05910551c5461e65615",
+    "sha256": "f89916923b8b935d1f0aaf8b77d21cb0c507c270d66c00d0f256a62cc7ff22ec"
+  },
+  {
+    "file": "androidx-media.tar.gz",
+    "url": "https://codeload.github.com/androidx/media/tar.gz/ae9a2339679826f870690092509a135dffc0d7e4",
+    "sha256": "f3f0d6726a9eb3ebe5d8caa718ee3e60e1506cb753d187b7b27d5cd79c191016"
+  }
+]

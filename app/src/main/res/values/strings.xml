@@ -1,0 +1,8 @@
+<resources>
+    <string name="guide_selected">%1$s ✓</string>
+    <string name="guide_no_data_status">%1$s · 暂无节目数据 · 香港时间\n%2$s</string>
+    <string name="guide_status">%1$s · %2$d 个节目 · 香港时间\n%3$s%4$s · 实际播出可能调整</string>
+    <string name="app_name">家看电视</string>
+    <string name="playback_mode_button">%1$s · 按确定切换</string>
+    <string name="guide_unsupported">本轮节目单优先接入央视、翡翠台、明珠台和其他 TVB 频道；此频道仍可正常看直播。</string>
+</resources>
