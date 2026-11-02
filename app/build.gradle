@@ -1,0 +1,63 @@
+plugins { id 'com.android.application' }
+android {
+    namespace 'hk.jiakan.tv'
+    compileSdk 35
+    defaultConfig {
+        applicationId 'hk.jiakan.tv'
+        minSdk 23
+        targetSdk 35
+        testInstrumentationRunner 'hk.jiakan.tv.RepairInstrumentation'
+        versionCode = Integer.parseInt((project.findProperty('appVersionCode') ?: '20').toString())
+        versionName = (project.findProperty('appVersionName') ?: '0.5.0-alpha').toString()
+    }
+    signingConfigs {
+        release {
+            if (System.getenv('JIAKAN_KEYSTORE')) {
+                storeFile file(System.getenv('JIAKAN_KEYSTORE'))
+                storePassword System.getenv('JIAKAN_STORE_PASSWORD')
+                keyAlias 'jiakan'
+                keyPassword System.getenv('JIAKAN_STORE_PASSWORD')
+            }
+        }
+    }
+    buildTypes { release { signingConfig signingConfigs.release } }
+    // Private inputs are opt-in, never implicitly loaded by a release build.
+    sourceSets { main { assets.srcDirs = [layout.buildDirectory.dir('catalogAssets')] } }
+    buildFeatures { buildConfig true }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+        coreLibraryDesugaringEnabled true
+    }
+    lint { abortOnError true }
+}
+dependencies {
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.5'
+    implementation project(':core')
+    implementation 'androidx.media3:media3-exoplayer:1.7.1'
+    implementation 'androidx.media3:media3-exoplayer-hls:1.7.1'
+    implementation 'androidx.media3:media3-exoplayer-dash:1.7.1'
+    implementation 'androidx.media3:media3-ui:1.7.1'
+    implementation 'org.jellyfin.media3:media3-ffmpeg-decoder:1.6.1+2'
+    implementation 'androidx.core:core:1.15.0'
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation 'org.json:json:20240303'
+}
+
+def privateCatalogDir = providers.gradleProperty('privateCatalogDir')
+def prepareCatalogAssets = tasks.register('prepareCatalogAssets', Sync) {
+    from('src/main/assets') { if (privateCatalogDir.isPresent()) exclude 'channels.json' }
+    if (privateCatalogDir.isPresent()) {
+        from(rootProject.file(privateCatalogDir.get())) {
+            include 'channels.json', 'catalog-config.json', 'private-update-token.txt'
+        }
+        doFirst {
+            def dir = rootProject.file(privateCatalogDir.get())
+            ['channels.json', 'catalog-config.json', 'private-update-token.txt'].each {
+                if (!new File(dir, it).isFile()) throw new GradleException('Private catalog input missing: ' + it)
+            }
+        }
+    }
+    into(layout.buildDirectory.dir('catalogAssets'))
+}
+tasks.named('preBuild').configure { dependsOn prepareCatalogAssets }

@@ -1,0 +1,16 @@
+家看电视第三方音频组件
+
+本项目自有源码：MIT License（Copyright 2026 ngoVictor）。
+
+本构建包含 org.jellyfin.media3:media3-ffmpeg-decoder:1.6.1+2，
+发布方：Jellyfin；发布元数据许可证：GNU General Public License v3.0。
+完整文本见同目录 GPL-3.0.txt。
+组件及构建脚本：https://github.com/jellyfin/jellyfin-androidx-media/tree/v1.6.1%2B2
+Media3 源码（Apache-2.0）：https://github.com/androidx/media/tree/ae9a2339679826f870690092509a135dffc0d7e4
+FFmpeg 源码及内部许可文件：https://github.com/FFmpeg/FFmpeg/tree/d388c347d41e4eb516dec05910551c5461e65615
+
+Media3 运行依赖统一固定为 1.7.1，与上述扩展的 POM 相符。
+音频扩展以动态原生库随 APK 打包；未改动该组件，不启用视频软件扩展。
+发行附件的 source-dependencies 目录包含上述固定提交的完整源码树，
+项目源码和构建脚本随源码附件提供；签名私钥、私人更新凭据不属于源码附件。
+组件无任何适销性或特定用途保证；其他依赖保持各自许可证。
