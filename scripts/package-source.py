@@ -1,6 +1,8 @@
 """Bundle distributable project and pinned dependency sources; never include ignored inputs."""
 import argparse, hashlib, json, os, pathlib, subprocess, tempfile, zipfile
 
+from public_artifact import check_public_catalog
+
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 
 
@@ -18,11 +20,13 @@ def package(output, root=ROOT):
         if not name:
             continue
         path = pathlib.PurePosixPath(name)
-        if any(part in ('.tools', '.git', '.gradle', 'build', 'artifacts') for part in path.parts) or path.suffix in ('.jks', '.keystore') or path.name in ('local.properties', 'credentials.json', 'catalog-config.json', 'private-update-token.txt', 'github-token.txt'):
+        if any(part in ('.tools', '.private', '.git', '.gradle', 'build', 'artifacts') for part in path.parts) or path.suffix in ('.jks', '.keystore') or path.name in ('local.properties', 'credentials.json', 'catalog-config.json', 'private-update-token.txt', 'github-token.txt'):
             raise ValueError('Private/build input must not be tracked: '+name)
         if (root/name).resolve() in (output, sidecar):
             raise ValueError('Output must be outside distributable project inputs')
         if (root/name).is_file():
+            if name == 'app/src/main/assets/channels.json':
+                check_public_catalog((root/name).read_bytes())
             sources.append(name)
     output.parent.mkdir(parents=True, exist_ok=True)
     with tempfile.TemporaryDirectory(prefix='.source-package-', dir=output.parent) as staging:

@@ -9,3 +9,5 @@
 Python 工具：`python -m unittest discover -s scripts/tests`、`python scripts/check-docs.py`。源码打包工具需要将 publishing/audio-dependency-sources.json 所列未修改第三方源码置于 artifacts/source-dependencies 并核对散列，以履行分发对应源码要求。
 
 本仓库不包含频道发现、检测和维护任务；协议兼容的目录更新无需重新构建 APK。当前目录来源切换仍遵循契约中 revision 限制。
+
+公开源码包也检查内置频道为空，拒绝 .private 与私用配置。`github-release.py --dry-run` 只预览元数据、不执行上传，不能替代正式发布检查。0.5.0 完整源码已分卷发布，可从 Release 下载 restore-source.py 自动下载并校验还原。
