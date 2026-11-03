@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "versionCode": 20,
+  "versionName": "0.5.0-alpha",
+  "minSdk": 23,
+  "apkUrl": "https://github.com/ngoVictor/Video_watch_inhk/releases/download/v0.5.0-alpha/jiakan-tv-0.5.0-alpha.apk",
+  "sha256": "c33f197a51107e41edbf8182351d92fa4ad2e19b8a587c2febeb96f57f54fc32",
+  "notes": "开源电视客户端，不内置频道；使用者自行配置频道目录。"
+}

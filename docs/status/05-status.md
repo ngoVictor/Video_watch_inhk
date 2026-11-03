@@ -9,3 +9,12 @@
 - 保留原播放策略、收藏及有效目录缓存。首次迁移采用 U 盘覆盖安装，之后应用更新与目录更新独立。
 
 没有操作家庭设备；编译、协议、HTTP 和资产检查不能证明香港家庭长时播放。频道质量由外部目录提供者负责。本次发布状态以 App 仓库 Release 和 publishing/update.json 为准。
+
+## 最终本地布局验证
+
+工作区容器下的 Video_watch_inhk 为独立 App 仓库，与频道仓库并列。移位后重新执行 core、Android Debug 单测、Lint 和 APK 构建全部通过；Python16和文档检查通过。家庭 APK 保存在本仓库 artifacts/release/jiakan-tv-0.5.0-alpha-private.apk，相关配置和签名在被忽略的 .tools 中。
+
+
+## 公开发行完成
+
+[0.5.0-alpha / 20](https://github.com/ngoVictor/Video_watch_inhk/releases/tag/v0.5.0-alpha) 已正式发布；无凭据公开下载的 APK 与本地已验签产物大小和 SHA-256 一致。19 个附件逐项大小/散列核验通过，包括 14 个完整源码分卷；运行 Release 附件 restore-source.py 自动下载、校验并还原完整源码 ZIP。源码标签对应提交 6c1e94041a227a5dcb69f525f31261b0a137c757；后续文档与发布清单独立提交。publishing/update.json 已指向新仓库公开 APK。私用 APK 没有上传。
