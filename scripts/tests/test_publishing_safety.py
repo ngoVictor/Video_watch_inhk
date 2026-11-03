@@ -144,6 +144,20 @@ class SourceArchiveSafetyTest(unittest.TestCase):
         self.assertFalse(self.output.exists())
         self.clean_staging()
 
+    def test_private_catalog_rejected_before_touching_output(self):
+        path=self.root/'app/src/main/assets/channels.json'
+        path.parent.mkdir(parents=True)
+        path.write_text('{"channels":[{"id":"private-fixture"}]}')
+        self.output.write_bytes(b'old archive')
+        with patch.object(packager.subprocess,'check_output',return_value=b'app/src/main/assets/channels.json\0'), self.assertRaises(ValueError):
+            packager.package(self.output,self.root)
+        self.assertEqual(b'old archive',self.output.read_bytes())
+
+    def test_forced_private_directory_is_rejected(self):
+        with patch.object(packager.subprocess,'check_output',return_value=b'.private/profile.json\0'), self.assertRaises(ValueError):
+            packager.package(self.output,self.root)
+        self.assertFalse(self.output.exists())
+
     def test_private_input_rejected_before_touching_output(self):
         self.output.write_bytes(b'old archive')
         with patch.object(packager.subprocess, 'check_output', return_value=b'private-update-token.txt\0'), self.assertRaises(ValueError):
